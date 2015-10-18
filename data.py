@@ -2,23 +2,23 @@ import csv
 import os.path
 from zipfile import ZipFile
 
-datadir    = '.'
+dataDir    = '.'
 
-def setup(dir):
-    global datadir
-    datadir = dir;
+def setup(datadir="."):
+    global dataDir
+    dataDir = datadir;
 
 
-def readLabels():
-    global datadir
-    with open(os.path.join(datadir, "train_v2.csv"), newline='') as f:
+def read_labels():
+    global dataDir
+    with open(os.path.join(dataDir, "train_v2.csv"), newline='') as f:
         f.readline() # skip header line
         labelReader = csv.reader(f)
         return dict((k, v == "1") for (k,v) in labelReader)
         
-def readSamples(samplesName):
+def read_samples(samplesName):
     #open files (let exceptions crash the whole process)
-    files = [ZipFile(os.path.join(datadir, str(i) + ".zip"), 'r') for i in range(0, 6)]
+    files = [ZipFile(os.path.join(dataDir, str(i) + ".zip"), 'r') for i in range(0, 6)]
     samplesLoc = dict() # files => zip container pairs
     for i in range(0, 6):
         for f in files[i].namelist():

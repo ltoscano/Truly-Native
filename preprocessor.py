@@ -1,18 +1,12 @@
 import re
-from urllib.parse import urlparse
-import itertools
 import nltk
 import numpy as np
-from nltk.corpus import stopwords # Import the stop word list
-from bs4 import Comment
+from   bs4 import Comment
 
 # Utilities
-
 sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
-word_detector = nltk.data.load('tokenizers/punkt/english.pickle')
-stop_words    = set(stopwords.words("english"))
 
-def purge_html(soup):
+def purge_HTML(soup):
     """ Remove unwanted html content (javascript, comments, css)
     """
     for tag in soup(['script', 'style', 'link', 'meta', 'iframe']):
@@ -22,7 +16,7 @@ def purge_html(soup):
     return soup
                 
 def html2txt(soup):
-    """ Improves bs4's get_text() using a purged html
+    """ Improves bs4's get_text() from a purged html
     """
     # cleanup 
     for tag in soup(['i', 'b', 'span', 'a']):
@@ -59,14 +53,7 @@ def avg_sentence_len(text):
     lengths = list(map(lambda s : len(s.strip()) -1, strings))
     lengths = list(filter(lambda l : l > 0, lengths))
     lengths = np.fromiter(lengths, dtype=np.int)
-    return np.mean(lengths)
-
-def get_clean_words(text):
-    """ return most significant words
-    """
-    global stopwords
-    letters = re.sub("[^a-zA-Z]", " ", text) 
-    text    = text.lower().split()
-    # 5. Remove stop words
-    meaningful_words = [w for w in words if w not in stops]  
-    return nltk.FreqDist(text1)
+    if len(lengths) > 0:
+        return np.mean(lengths)
+    else:
+        return 0
